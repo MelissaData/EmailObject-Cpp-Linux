@@ -15,35 +15,35 @@ license=""
 quiet="false"
 
 while [ $# -gt 0 ] ; do
-  case $1 in
-    -e | --email) 
-        email="$2"
-        
-        if [ "$email" == "-l" ] || [ "$email" == "--license" ] || [ "$email" == "-q" ] || [ "$email" == "--quiet" ] || [ -z "$email" ];
-        then
-            printf "${RED}Error: Missing an argument for parameter \'email\'.${NC}\n"  
-            exit 1
-        fi 
-        ;;
-    -l | --license) 
-        license="$2"
-        
-        if [ "$license" == "-e" ] || [ "$license" == "--email" ] || [ "$license" == "-q" ] || [ "$license" == "--quiet" ] || [ -z "$license" ];
-        then
-            printf "${RED}Error: Missing an argument for parameter \'license\'.${NC}\n"  
-            exit 1
-        fi  
-        ;;
-    -q | --quiet) 
-        quiet="true" 
-        ;;
-  esac
-  shift
+    case $1 in
+        -e | --email) 
+            email="$2"
+            
+            if [ "$email" == "-l" ] || [ "$email" == "--license" ] || [ "$email" == "-q" ] || [ "$email" == "--quiet" ] || [ -z "$email" ];
+            then
+                printf "${RED}Error: Missing an argument for parameter \'email\'.${NC}\n"  
+                exit 1
+            fi 
+            ;;
+        -l | --license) 
+            license="$2"
+            
+            if [ "$license" == "-e" ] || [ "$license" == "--email" ] || [ "$license" == "-q" ] || [ "$license" == "--quiet" ] || [ -z "$license" ];
+            then
+                printf "${RED}Error: Missing an argument for parameter \'license\'.${NC}\n"  
+                exit 1
+            fi  
+            ;;
+        -q | --quiet) 
+            quiet="true" 
+            ;;
+    esac
+    shift
 done
 
 ######################### Config ###########################
 
-RELEASE_VERSION='2023.07'
+RELEASE_VERSION='2023.08'
 ProductName="DQ_EMAIL_DATA"
 
 # Uses the location of the .ps1 file 
@@ -88,63 +88,87 @@ Config_Type3="INTERFACE"
 ######################## Functions #########################
 DownloadDataFiles()
 {
-  printf "========================== MELISSA UPDATER =========================\n"
-  printf "MELISSA UPDATER IS DOWNLOADING DATA FILE(S)...\n"
+    printf "========================== MELISSA UPDATER =========================\n"
+    printf "MELISSA UPDATER IS DOWNLOADING DATA FILE(S)...\n"
 
-  ./MelissaUpdater/MelissaUpdater manifest -p $ProductName -r $RELEASE_VERSION -l $1 -t $DataPath
+    ./MelissaUpdater/MelissaUpdater manifest -p $ProductName -r $RELEASE_VERSION -l $1 -t $DataPath
 
-  if [ $? -ne 0 ];
-  then
-    printf "\nCannot run Melissa Updater. Please check your license string!\n"
-    exit 1
-  fi
+    if [ $? -ne 0 ];
+    then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+    fi
 
-  printf "Melissa Updater finished downloading data file(s)!\n"
+    printf "Melissa Updater finished downloading data file(s)!\n"
 }
 
 DownloadSO()
 {
-  printf "MELISSA UPDATER IS DOWNLOADING SO(s)...\n"
+    printf "MELISSA UPDATER IS DOWNLOADING SO(S)...\n"
 
-  # Check for quiet mode
-  if [ $quiet == "true" ];
-  then
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName1 --release_version $Config_ReleaseVersion1 --license $1 --os $Config_OS1 --compiler $Config_Compiler1 --architecture $Config_Architecture1 --type $Config_Type1 --target_directory $BuildPath  &> /dev/null
-        
-    printf "Melissa Updater finished downloading $Config_FileName1!\n"
-
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName2 --release_version $Config_ReleaseVersion2 --license $1 --os $Config_OS2 --compiler $Config_Compiler2 --architecture $Config_Architecture2 --type $Config_Type2 --target_directory $ProjectPath  &> /dev/null
-    
-    printf "Melissa Updater finished downloading $Config_FileName2!\n"
-
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName3 --release_version $Config_ReleaseVersion3 --license $1 --os $Config_OS3 --compiler $Config_Compiler3 --architecture $Config_Architecture3 --type $Config_Type3 --target_directory $ProjectPath  &> /dev/null
-    
-    printf "Melissa Updater finished downloading $Config_FileName3!\n"
-
-    if [ $? -ne 0 ];
+    # Check for quiet mode
+    if [ $quiet == "true" ];
     then
-      printf "\nCannot run Melissa Updater. Please check your license string!\n"
-      exit 1
-    fi
-  else
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName1 --release_version $Config_ReleaseVersion1 --license $1 --os $Config_OS1 --compiler $Config_Compiler1 --architecture $Config_Architecture1 --type $Config_Type1 --target_directory $BuildPath  
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName1 --release_version $Config_ReleaseVersion1 --license $1 --os $Config_OS1 --compiler $Config_Compiler1 --architecture $Config_Architecture1 --type $Config_Type1 --target_directory $BuildPath  &> /dev/null
+            
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
         
-    printf "Melissa Updater finished downloading $Config_FileName1!\n"
-    
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName2 --release_version $Config_ReleaseVersion2 --license $1 --os $Config_OS2 --compiler $Config_Compiler2 --architecture $Config_Architecture2 --type $Config_Type2 --target_directory $ProjectPath  
-    
-    printf "Melissa Updater finished downloading $Config_FileName2!\n"
-    
-    ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName3 --release_version $Config_ReleaseVersion3 --license $1 --os $Config_OS3 --compiler $Config_Compiler3 --architecture $Config_Architecture3 --type $Config_Type3 --target_directory $ProjectPath  
+        printf "Melissa Updater finished downloading $Config_FileName1!\n"
 
-    printf "Melissa Updater finished downloading $Config_FileName3!\n"
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName2 --release_version $Config_ReleaseVersion2 --license $1 --os $Config_OS2 --compiler $Config_Compiler2 --architecture $Config_Architecture2 --type $Config_Type2 --target_directory $ProjectPath  &> /dev/null
+        
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
+        
+        printf "Melissa Updater finished downloading $Config_FileName2!\n"
 
-    if [ $? -ne 0 ];
-    then
-      printf "\nCannot run Melissa Updater. Please check your license string!\n"
-      exit 1
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName3 --release_version $Config_ReleaseVersion3 --license $1 --os $Config_OS3 --compiler $Config_Compiler3 --architecture $Config_Architecture3 --type $Config_Type3 --target_directory $ProjectPath  &> /dev/null
+        
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
+        
+        printf "Melissa Updater finished downloading $Config_FileName3!\n"
+    else
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName1 --release_version $Config_ReleaseVersion1 --license $1 --os $Config_OS1 --compiler $Config_Compiler1 --architecture $Config_Architecture1 --type $Config_Type1 --target_directory $BuildPath  
+            
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
+        
+        printf "Melissa Updater finished downloading $Config_FileName1!\n"
+        
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName2 --release_version $Config_ReleaseVersion2 --license $1 --os $Config_OS2 --compiler $Config_Compiler2 --architecture $Config_Architecture2 --type $Config_Type2 --target_directory $ProjectPath  
+        
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
+        
+        printf "Melissa Updater finished downloading $Config_FileName2!\n"
+        
+        ./MelissaUpdater/MelissaUpdater file --filename $Config_FileName3 --release_version $Config_ReleaseVersion3 --license $1 --os $Config_OS3 --compiler $Config_Compiler3 --architecture $Config_Architecture3 --type $Config_Type3 --target_directory $ProjectPath  
+
+        if [ $? -ne 0 ];
+        then
+        printf "\nCannot run Melissa Updater. Please check your license string!\n"
+        exit 1
+        fi    
+        
+        printf "Melissa Updater finished downloading $Config_FileName3!\n"
     fi
-  fi
 }
 
 CheckSOs() 
@@ -179,24 +203,23 @@ CheckSOs()
 ########################## Main ############################
 
 printf "\n======================= Melissa Email Object =======================\n                      [ C++ | Linux | 64BIT ]\n"
-printf "\n=========================== BUILD PROJECT ==========================\n"
 # Get license (either from parameters or user input)
 if [ -z "$license" ];
 then
-  printf "Please enter your license string: "
-  read license
+    printf "Please enter your license string: "
+    read license
 fi
 
 # Check for License from Environment Variables 
 if [ -z "$license" ];
 then
-  license=`echo $MD_LICENSE`
+    license=`echo $MD_LICENSE`
 fi
 
 if [ -z "$license" ];
 then
-  printf "\nLicense String is invalid!\n"
-  exit 1
+    printf "\nLicense String is invalid!\n"
+    exit 1
 fi
 
 # Use Melissa Updater to download data file(s)
@@ -248,7 +271,7 @@ export LD_LIBRARY_PATH=$BuildPath
 # Run project
 if [ -z "$email" ];
 then
-  $BuildPath/MelissaEmailObjectLinuxCpp --license $license  --dataPath $DataPath
+    $BuildPath/MelissaEmailObjectLinuxCpp --license $license  --dataPath $DataPath
 else
-  $BuildPath/MelissaEmailObjectLinuxCpp --license $license  --dataPath $DataPath --email "$email"
+    $BuildPath/MelissaEmailObjectLinuxCpp --license $license  --dataPath $DataPath --email "$email"
 fi
