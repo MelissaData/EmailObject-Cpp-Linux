@@ -3,7 +3,7 @@
 CXX = g++
 CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -g
 LDLIBS = -lmdEmail
-LDFLAGS = -L/home/emaiiii/MdLinuxExamples/melissaemailobjectlinuxcpp/MelissaEmailObjectLinuxCpp/Build
+LDFLAGS = -L/home/emaiiii/MdLinuxExamples/EmailObject-Cpp-Linux/MelissaEmailObjectLinuxCpp/Build
 RM = rm -f
 
 OUT_DIR = Build
