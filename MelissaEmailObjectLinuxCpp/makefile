@@ -13,4 +13,3 @@ MelissaEmailObjectLinuxCpp: Main.cpp EmailObject.cpp mdEmail.h mdEnums.h | $(OUT
 
 clean:
 	$(RM) *.o $(OUT_DIR)/MelissaEmailObjectLinuxCpp
-
