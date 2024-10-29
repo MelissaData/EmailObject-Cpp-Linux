@@ -24,7 +24,7 @@ And return
 ## Tested Environments
 - Linux 64-bit g++ 9.4.0, Ubuntu 20.04.05 LTS
 - GNU Make 4.2.1
-- Melissa data files for 2024-09
+- Melissa data files for 2024-10
 
 ## Required File(s) and Programs
 
@@ -79,8 +79,8 @@ Once you have finished the installations, you should be able to verify that they
 
 #### Download this project
 ```
-$ git clone https://github.com/MelissaData/EmailObject-Cpp-Linux
-$ cd EmailObject-Cpp-Linux
+git clone https://github.com/MelissaData/EmailObject-Cpp-Linux
+cd EmailObject-Cpp-Linux
 ```
 
 #### Set up Melissa Updater 
@@ -136,23 +136,23 @@ When you have modified the script to match your data location, let's run the scr
 
   The script will prompt the user for an email address, then use the provided email to test Email Object. For example:
   ```
-  $ ./MelissaEmailObjectLinuxCpp.sh
+  ./MelissaEmailObjectLinuxCpp.sh
   ```
   For quiet mode:
   ```
-  $ ./MelissaEmailObjectLinuxCpp.sh --quiet
+  ./MelissaEmailObjectLinuxCpp.sh --quiet
   ```
 - Command Line 
 
   You can pass an email address in ```--email``` parameter and a license string in ```--license``` parameter to test Email Object. For example:
   ```
-  $ ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com"
-  $ ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --license "<your_license_string>"
+  ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com"
+  ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --license "<your_license_string>"
   ```
   For quiet mode:
   ```
-  $ ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --quiet
-  $ ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --license "<your_license_string>" --quiet
+  ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --quiet
+  ./MelissaEmailObjectLinuxCpp.sh --email "info@melissa.com" --license "<your_license_string>" --quiet
   ```
 This is the expected output from a successful setup for interactive mode:
 
