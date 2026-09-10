@@ -2,14 +2,18 @@
 
 EmailObject::EmailObject(string license, string dataPath)
 {
-	// Set license string and set path to datafiles (.dat, etc)
+	// Set license string and set path to data files
 	mdEmailObj->SetLicenseString(license.c_str());
 	dataFilePath = dataPath;
 
-	// If you see a different date than expected, check your license string and either download the new data files or use the Melissa Updater program to update your data files.  
+	// Load the data files. The returned ProgramStatus reports whether initialization succeeded.
+	// If you see a different date than expected, check your license string and either download the new data files
+	// or use the Melissa Updater program to update your data files.
 	mdEmailObj->SetPathToEmailFiles(dataFilePath.c_str());
 	mdEmail::ProgramStatus pStatus = mdEmailObj->InitializeDataFiles();
 
+	// If an issue occurred, please investigate the common causes.
+	// Common causes: an invalid/expired license, or missing/wrong-path data files.
 	if (pStatus != mdEmail::ProgramStatus::ErrorNone)
 	{
 		cout << "Failed to Initialize Object." << endl;
@@ -17,7 +21,12 @@ EmailObject::EmailObject(string license, string dataPath)
 		return;
 	}
 
+	// Diagnostic information, handy for confirming the object loaded the data you expect:
+
+	// Build date of the data files
 	cout << "                    DataBase Date: " + string(mdEmailObj->GetDatabaseDate()) << endl;
+
+	// When the license stops working
 	cout << "                  Expiration Date: " + string(mdEmailObj->GetLicenseStringExpirationDate()) << endl;
 
 	/**
@@ -30,7 +39,8 @@ EmailObject::EmailObject(string license, string dataPath)
 // This will call the lookup function to process the input email as well as generate the result codes
 void EmailObject::ExecuteObjectAndResultCodes(DataContainer& data)
 {
-	// These are the configuarble pieces of the Email Object. We are setting what kind of information we want to be looked up
+	// These are the configurable pieces of the Email Object - they control which checks
+	// VerifyEmail performs (syntax correction, database & MX lookups, fuzzy matching, ...).
 	mdEmailObj->SetCacheUse(1);
 	mdEmailObj->SetCorrectSyntax(true);
 	mdEmailObj->SetDatabaseLookup(true);
@@ -39,10 +49,12 @@ void EmailObject::ExecuteObjectAndResultCodes(DataContainer& data)
 	mdEmailObj->SetStandardizeCasing(true);
 	mdEmailObj->SetWSLookup(false);
 
+	// Validate and correct the email per the options above
 	mdEmailObj->VerifyEmail(data.Email);
-	data.ResultCodes = mdEmailObj->GetResults();
 
+	// Collect the result codes for this run
 	// ResultsCodes explain any issues Email Object has with the object.
 	// List of result codes for Email Object
-	// https://wiki.melissadata.com/?title=Result_Code_Details#Email_Object
+	// https://docs.melissa.com/on-premise-api/email-object/result-codes.html
+	data.ResultCodes = mdEmailObj->GetResults();
 }
